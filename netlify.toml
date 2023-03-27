@@ -1,228 +1,62 @@
+# Copyright (c) 2022-2023 Jonah Aragon <jonah@triplebit.net>
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to
+# deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+# sell copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+# IN THE SOFTWARE.
+
 [build]
     publish = "site/"
-    command = "mkdocs build --config-file mkdocs.production.yml"
+    command = "mkdocs build --config-file config/mkdocs.en.yml && mkdocs build --config-file config/mkdocs.he.yml && mkdocs build --config-file config/mkdocs.fr.yml && mkdocs build --config-file config/mkdocs.nl.yml && mv _redirects site/"
 
-[context.production.environment]
-    PRODUCTION = "true"
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "0"
+    X-Content-Type-Options = "nosniff"
+    Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
+    Content-Security-Policy = "default-src 'none'; script-src https://www.privacyguides.org https://api.privacyguides.net 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src data: 'self'; connect-src https://api.github.com https://*.privacyguides.net 'self'; frame-src https://*.privacyguides.net; frame-ancestors 'none'"
 
-[[redirects]]
-    from = "/.well-known/matrix/*"
-    to = "https://matrix.privacyguides.org/.well-known/matrix/:splat"
-    status = 200
-    force = true
+[[headers]]
+  for = "/:lang/about/donate/"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; script-src https://opencollective.com https://www.privacyguides.org https://api.privacyguides.net 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src https://opencollective.com data: 'self'; connect-src https://api.github.com https://*.privacyguides.net 'self'; frame-src https://opencollective.com; frame-ancestors 'none'"
 
-[[redirects]]
-    from = "/kb"
-    to = "/basics/threat-modeling/"
-
-[[redirects]]
-    from = "/coc"
-    to = "/CODE_OF_CONDUCT/"
-
-[[redirects]]
-    from = "/team"
-    to = "/about/"
+[[headers]]
+  for = "/:lang/tor/"
+  [headers.values]
+    Content-Security-Policy = "default-src 'none'; script-src https://www.privacyguides.org https://api.privacyguides.net 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src data: 'self'; connect-src https://api.github.com https://*.privacyguides.net 'self'; frame-src https://snowflake.torproject.org; frame-ancestors 'none'"
 
 [[redirects]]
-    from = "/browsers"
-    to = "/desktop-browsers/"
+    from = "/fr/*"
+    to = "/fr/404/index.html"
+    status = 404
 
 [[redirects]]
-    from = "/blog"
-    to = "https://blog.privacyguides.org"
+    from = "/he/*"
+    to = "/he/404/index.html"
+    status = 404
 
 [[redirects]]
-    from = "/blog/2021/12/01/firefox-privacy-2021-update"
-    to = "https://blog.privacyguides.org/2021/12/01/firefox-privacy-2021-update/"
+    from = "/nl/*"
+    to = "/nl/404/index.html"
+    status = 404
 
 [[redirects]]
-    from = "/blog/2021/09/14/welcome-to-privacy-guides"
-    to = "https://blog.privacyguides.org/2021/09/14/welcome-to-privacy-guides/"
-
-[[redirects]]
-    from = "/blog/2022/06/09/hide-nothing"
-    to = "https://blog.privacyguides.org/2022/06/09/hide-nothing/"
-
-[[redirects]]
-    from = "/blog/2022/04/04/move-fast-and-break-things"
-    to = "https://blog.privacyguides.org/2022/04/04/move-fast-and-break-things/"
-
-[[redirects]]
-    from = "/blog/2021/11/01/virtual-insanity"
-    to = "https://blog.privacyguides.org/2021/11/01/virtual-insanity"
-
-[[redirects]]
-    from = "/basics/dns-overview"
-    to = "/advanced/dns-overview/"
-
-[[redirects]]
-    from = "/basics/tor-overview"
-    to = "/advanced/tor-overview/"
-
-[[redirects]]
-    from = "/real-time-communication/communication-network-types"
-    to = "/advanced/communication-network-types"
-
-[[redirects]]
-    from = "/advanced/real-time-communication"
-    to = "/advanced/communication-network-types"
-
-[[redirects]]
-    from = "/android/overview"
-    to = "/os/android-overview/"
-
-[[redirects]]
-    from = "/linux-desktop/overview"
-    to = "/os/linux-overview/"
-
-[[redirects]]
-    from = "/android/grapheneos-vs-calyxos"
-    to = "https://blog.privacyguides.org/2022/04/21/grapheneos-or-calyxos/"
-
-[[redirects]]
-    from = "/ios/configuration"
-    to = "https://blog.privacyguides.org/2022/10/22/ios-configuration-guide/"
-
-[[redirects]]
-    from = "/linux-desktop/hardening"
-    to = "https://blog.privacyguides.org/2022/04/22/linux-system-hardening/"
-
-[[redirects]]
-    from = "/linux-desktop/sandboxing"
-    to = "https://blog.privacyguides.org/2022/04/22/linux-application-sandboxing/"
-
-[[redirects]]
-    from = "/advanced/signal-configuration-hardening"
-    to = "https://blog.privacyguides.org/2022/07/07/signal-configuration-and-hardening/"
-
-[[redirects]]
-    from = "/real-time-communication/signal-configuration-hardening"
-    to = "https://blog.privacyguides.org/2022/07/07/signal-configuration-and-hardening/"
-
-[[redirects]]
-    from = "/advanced/integrating-metadata-removal"
-    to = "https://blog.privacyguides.org/2022/04/09/integrating-metadata-removal/"
-
-[[redirects]]
-    from = "/advanced/erasing-data"
-    to = "https://blog.privacyguides.org/2022/05/25/secure-data-erasure/"
-
-[[redirects]]
-    from = "/providers/dns"
-    to = "/dns/"
-
-[[redirects]]
-    from = "/software/video-streaming"
-    to = "/video-streaming/"
-
-[[redirects]]
-    from = "/providers/vpn"
-    to = "/vpn/"
-
-[[redirects]]
-    from = "/operating-systems"
-    to = "/desktop/"
-
-[[redirects]]
-    from = "/providers/email"
-    to = "/email/"
-
-[[redirects]]
-    from = "/threat-modeling"
-    to = "/basics/threat-modeling/"
-
-[[redirects]]
-    from = "/software/passwords"
-    to = "/passwords/"
-
-[[redirects]]
-    from = "/self-contained-networks"
-    to = "/tor/"
-
-[[redirects]]
-    from = "/privacy-policy"
-    to = "/about/privacy-policy/"
-
-[[redirects]]
-    from = "/metadata-removal-tools"
-    to = "/data-redaction/"
-
-[[redirects]]
-    from = "/basics"
-    to = "/kb"
-
-[[redirects]]
-    from = "/software/file-encryption"
-    to = "/encryption/"
-
-[[redirects]]
-    from = "/providers"
-    to = "/tools/#service-providers"
-
-[[redirects]]
-    from = "/software/notebooks"
-    to = "/notebooks/"
-
-[[redirects]]
-    from = "/software/calendar-contacts"
-    to = "/calendar-contacts/"
-
-[[redirects]]
-    from = "/software/metadata-removal-tools"
-    to = "/data-redaction/"
-
-[[redirects]]
-    from = "/contact"
-    to = "/about/"
-
-[[redirects]]
-    from = "/welcome-to-privacy-guides"
-    to = "https://blog.privacyguides.org/2021/09/14/welcome-to-privacy-guides/"
-
-[[redirects]]
-    from = "/software/email"
-    to = "/email-clients/"
-
-[[redirects]]
-    from = "/providers/paste"
-    to = "/tools/"
-
-[[redirects]]
-    from = "/providers/search-engines"
-    to = "/search-engines/"
-
-[[redirects]]
-    from = "/software/productivity"
-    to = "/productivity/"
-
-[[redirects]]
-    from = "/software/real-time-communication"
-    to = "/real-time-communication/"
-
-[[redirects]]
-    from = "/blog/2019/10/05/understanding-vpns"
-    to = "https://www.jonaharagon.com/posts/understanding-vpns/"
-
-[[redirects]]
-    from = "/terms-and-notices"
-    to = "/about/notices/"
-
-[[redirects]]
-    from = "/software/file-sharing"
-    to = "/file-sharing/"
-
-[[redirects]]
-    from = "/software/networks"
-    to = "/tor/"
-
-[[redirects]]
-    from = "/social-news-aggregator"
-    to = "/news-aggregators/"
-
-[[redirects]]
-    from = "/basics/erasing-data"
-    to = "https://blog.privacyguides.org/2022/05/25/secure-data-erasure/"
-
-[[redirects]]
-    from = "/linux-desktop"
-    to = "/desktop/"
+    from = "/*"
+    to = "/en/404/index.html"
+    status = 404

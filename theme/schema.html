@@ -1,0 +1,62 @@
+<!-- {#
+  Copyright (c) 2023 Jonah Aragon <jonah@triplebit.net>
+
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+#} -->
+{% extends "main.html" %}
+{% block extrahead %}
+<script type="application/ld+json">
+[
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": "https://www.privacyguides.org/",
+        "name": "Privacy Guides",
+        "url": "https://www.privacyguides.org/en/about/",
+        "logo": "https://www.privacyguides.org/en/assets/brand/png/square/pg-yellow.png",
+        "sameAs": [
+        "https://twitter.com/privacy_guides",
+        "https://github.com/privacyguides",
+        "https://www.wikidata.org/wiki/Q111710163",
+        "https://opencollective.com/privacyguides",
+        "https://www.youtube.com/@privacyguides",
+        "https://mastodon.neat.computer/@privacyguides"
+        ]
+    },
+    {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "url": "{{ config.site_url }}",
+        "sameAs": [
+        "https://www.privacyguides.org/",
+        "https://twitter.com/privacy_guides",
+        "https://github.com/privacyguides"
+        ],
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": {
+                "@type": "EntryPoint",
+                "urlTemplate": "{{ config.site_url }}?q={search_term_string}"
+            },
+            "query-input": "required name=search_term_string"
+        }
+    }
+]
+</script>
+{% endblock %}

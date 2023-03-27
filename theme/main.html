@@ -1,5 +1,69 @@
-{% extends "base.html" %}
+<!-- {#
+  Copyright (c) 2016-2023 Martin Donath <martin.donath@squidfunk.com>
+  Copyright (c) 2023 Jonah Aragon <jonah@triplebit.net>
 
-{% block extrahead %}
-    <link rel="preload" href="{{ 'assets/brand/WOFF/bagnard/Bagnard.woff' | url }}" as="font" type="font/woff" crossorigin>
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to
+  deal in the Software without restriction, including without limitation the
+  rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+  sell copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:
+
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.
+
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+  IN THE SOFTWARE.
+#} -->
+{% extends "base.html" %}
+{% block site_meta %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    {% if page.meta and page.meta.description %}
+    <meta name="description" content="{{ page.meta.description }}">
+    {% elif config.site_description %}
+    <meta name="description" content="{{ config.site_description }}">
+    {% endif %}
+    {% if page.meta and page.meta.author %}
+    <meta name="author" content="{{ page.meta.author }}">
+    {% elif config.site_author %}
+    <meta name="author" content="{{ config.site_author }}">
+    {% endif %}
+    {% if page.canonical_url %}
+    <link rel="canonical" href="{{ page.canonical_url }}">
+    {% endif %}
+    {% if page.previous_page %}
+    <link rel="prev" href="{{ page.previous_page.url | url }}">
+    {% endif %}
+    {% if page.next_page %}
+    <link rel="next" href="{{ page.next_page.url | url }}">
+    {% endif %}
+    {% if config.extra.alternate is iterable %}
+    {% for alt in config.extra.alternate %}
+        <link rel="alternate" href="{{ "https://www.privacyguides.org/" ~ alt.lang ~ "/" ~ page.url }}" hreflang="{{ alt.lang | d(lang.t('language')) }}">
+    {% endfor %}
+    {% endif %}
+    {% if "rss" in config.plugins %}
+    <link rel="alternate" type="application/rss+xml" title="{{ lang.t('rss.created') }}" href="{{ 'feed_rss_created.xml' | url }}">
+    <link rel="alternate" type="application/rss+xml" title="{{ lang.t('rss.updated') }}" href="{{ 'feed_rss_updated.xml' | url }}">
+    {% endif %}
+    <link rel="icon" href="{{ config.theme.favicon | url }}">
+    <meta name="generator" content="mkdocs-{{ mkdocs_version }}, mkdocs-material-9.1.0+insiders-4.32.2">
 {% endblock %}
+{% block announce %}{% if config.extra.offline %}
+    You're viewing an offline copy of Privacy Guides built on {{ build_date_utc }}.
+    <a href="https://www.privacyguides.org/"> 
+    <strong>Visit privacyguides.org for the latest version.</strong>
+    </a>
+{% elif config.extra.context == "deploy-preview" %}
+    You're viewing an <strong>unreviewed preview</strong> of Privacy Guides built on {{ build_date_utc }}.
+    These previews are <strong>user-submitted</strong> and may not necessarily reflect the opinion of the site.
+    <a href="https://www.privacyguides.org/"> 
+    <strong>Visit privacyguides.org for current advice.</strong>
+    </a>
+{% else %}{% endif %}{% endblock %}
